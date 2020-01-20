@@ -1,0 +1,346 @@
+
+
+Resources Loaded....
+ 20 Jan 2020 10:53:14 
+
+Resources Loaded....
+ 20 Jan 2020 11:41:20 
+
+Resources Loaded....
+ 20 Jan 2020 11:42:37 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@2cdf8d8a
+ 20 Jan 2020 11:43:15 java.sql.SQLException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgFromOneNumberToOther(DatabaseConnection.java:103)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:37)
+
+
+Resources Loaded....
+ 20 Jan 2020 11:44:58 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@2cdf8d8a
+ 20 Jan 2020 11:45:22 java.sql.SQLException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgFromOneNumberToOther(DatabaseConnection.java:103)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:37)
+
+
+Resources Loaded....
+ 20 Jan 2020 11:48:29 
+
+Resources Loaded....
+ 20 Jan 2020 11:59:43 Exception found in DB Connection.
+Stack Trace: [Ljava.lang.StackTraceElement;@5cb0d902
+ 20 Jan 2020 11:59:43 com.mysql.jdbc.exceptions.MySQLSyntaxErrorException: Unknown column 'MESSAGE_CONTENT' in 'field list'
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:936)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:2985)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1631)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:1723)
+	at com.mysql.jdbc.Connection.execSQL(Connection.java:3283)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1332)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1604)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1519)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1504)
+	at net.paxcel.ashutoshaneja.DatabaseConnection.insertData(DatabaseConnection.java:64)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:14)
+
+
+Resources Loaded....
+ 20 Jan 2020 12:00:41 
+
+Resources Loaded....
+ 20 Jan 2020 12:04:54 
+
+Resources Loaded....
+ 20 Jan 2020 12:06:19 
+
+Resources Loaded....
+ 20 Jan 2020 12:06:54 
+
+Resources Loaded....
+ 20 Jan 2020 12:07:32 
+
+Resources Loaded....
+ 20 Jan 2020 12:12:23 
+
+Resources Loaded....
+ 20 Jan 2020 12:15:20 
+
+Resources Loaded....
+ 20 Jan 2020 12:16:00 
+
+Resources Loaded....
+ 20 Jan 2020 12:21:17 
+
+Resources Loaded....
+ 20 Jan 2020 12:21:40 
+
+Resources Loaded....
+ 20 Jan 2020 12:22:10 
+
+Resources Loaded....
+ 20 Jan 2020 12:50:48 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@2cdf8d8a
+ 20 Jan 2020 12:50:51 java.sql.SQLException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgReceivedBy(DatabaseConnection.java:145)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:56)
+
+
+Resources Loaded....
+ 20 Jan 2020 15:03:58 
+
+Resources Loaded....
+ 20 Jan 2020 15:04:31 Exception found in DB Connection.
+Stack Trace: [Ljava.lang.StackTraceElement;@5ef04b5
+ 20 Jan 2020 15:04:32 com.mysql.jdbc.exceptions.MySQLSyntaxErrorException: Table 'operator_db.number_details' doesn't exist
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:936)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:2985)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1631)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:1723)
+	at com.mysql.jdbc.Connection.execSQL(Connection.java:3283)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1332)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1604)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1519)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1504)
+	at net.paxcel.ashutoshaneja.DatabaseConnection.insertData(DatabaseConnection.java:79)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:14)
+
+
+Resources Loaded....
+ 20 Jan 2020 15:04:56 Exception found in DB Connection.
+Stack Trace: [Ljava.lang.StackTraceElement;@5ef04b5
+ 20 Jan 2020 15:04:56 com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`operator_db`.`number_detail`, CONSTRAINT `number_detail_ibfk_1` FOREIGN KEY (`OPERATOR_ID`) REFERENCES `operator` (`OPERATOR_ID`))
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:931)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:2985)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1631)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:1723)
+	at com.mysql.jdbc.Connection.execSQL(Connection.java:3283)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1332)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1604)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1519)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1504)
+	at net.paxcel.ashutoshaneja.DatabaseConnection.insertData(DatabaseConnection.java:79)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:14)
+
+
+Resources Loaded....
+ 20 Jan 2020 15:08:36 
+
+Resources Loaded....
+ 20 Jan 2020 15:11:09 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@14514713
+ 20 Jan 2020 15:11:12 java.sql.SQLException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgSentBy(DatabaseConnection.java:202)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:34)
+
+
+Resources Loaded....
+ 20 Jan 2020 15:13:29 
+
+Resources Loaded....
+ 20 Jan 2020 15:15:18 
+
+Resources Loaded....
+ 20 Jan 2020 15:15:48 
+
+Resources Loaded....
+ 20 Jan 2020 15:17:31 
+
+Resources Loaded....
+ 20 Jan 2020 15:22:24 
+
+Resources Loaded....
+ 20 Jan 2020 15:23:49 
+
+Resources Loaded....
+ 20 Jan 2020 15:41:37 Exception found in DB Connection.
+Stack Trace: [Ljava.lang.StackTraceElement;@5ef04b5
+ 20 Jan 2020 15:41:37 com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'OPERATOR_RANGE' at row 1
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:2983)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1631)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:1723)
+	at com.mysql.jdbc.Connection.execSQL(Connection.java:3283)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1332)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1604)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1519)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1504)
+	at net.paxcel.ashutoshaneja.DatabaseConnection.insertData(DatabaseConnection.java:65)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:14)
+
+
+Resources Loaded....
+ 20 Jan 2020 15:43:31 Exception found in DB Connection.
+Stack Trace: [Ljava.lang.StackTraceElement;@5ef04b5
+ 20 Jan 2020 15:43:32 com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`operator_db`.`operator_range`, CONSTRAINT `operator_range_ibfk_1` FOREIGN KEY (`OPERATOR_ID`) REFERENCES `operator` (`OPERATOR_ID`))
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:931)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:2985)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1631)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:1723)
+	at com.mysql.jdbc.Connection.execSQL(Connection.java:3283)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1332)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1604)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1519)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1504)
+	at net.paxcel.ashutoshaneja.DatabaseConnection.insertData(DatabaseConnection.java:65)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:14)
+
+
+Resources Loaded....
+ 20 Jan 2020 15:49:59 
+
+Resources Loaded....
+ 20 Jan 2020 15:56:31 Exception found in DB Connection.
+Stack Trace: [Ljava.lang.StackTraceElement;@5ef04b5
+ 20 Jan 2020 15:56:31 com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'OPERATOR_RANGE' at row 1
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:2983)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1631)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:1723)
+	at com.mysql.jdbc.Connection.execSQL(Connection.java:3283)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:1332)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1604)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1519)
+	at com.mysql.jdbc.PreparedStatement.executeUpdate(PreparedStatement.java:1504)
+	at net.paxcel.ashutoshaneja.DatabaseConnection.insertData(DatabaseConnection.java:68)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:14)
+
+
+Resources Loaded....
+ 20 Jan 2020 15:58:46 
+
+Resources Loaded....
+ 20 Jan 2020 16:13:58 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@27d6c5e0
+ 20 Jan 2020 16:14:00 java.sql.SQLException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgSentBy(DatabaseConnection.java:212)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:33)
+
+
+Resources Loaded....
+ 20 Jan 2020 16:14:54 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@27d6c5e0
+ 20 Jan 2020 16:14:56 java.sql.SQLException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgSentBy(DatabaseConnection.java:212)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:33)
+
+
+Resources Loaded....
+ 20 Jan 2020 16:18:49 [Ljava.lang.StackTraceElement;@15aeb7ab
+ 20 Jan 2020 16:18:50 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@6acbcfc0
+ 20 Jan 2020 16:18:50 java.sql.SQLException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgSentBy(DatabaseConnection.java:213)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:33)
+
+
+Resources Loaded....
+ 20 Jan 2020 16:19:23 
+ 20 Jan 2020 16:19:24 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@27d6c5e0
+ 20 Jan 2020 16:19:24 java.sql.SQLException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgSentBy(DatabaseConnection.java:213)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:33)
+
+
+Resources Loaded....
+ 20 Jan 2020 16:21:27 
+
+Resources Loaded....
+ 20 Jan 2020 16:22:56 
+
+Resources Loaded....
+ 20 Jan 2020 16:24:16 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@27d6c5e0
+ 20 Jan 2020 16:24:19 java.sql.SQLException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgFromOneNumberToOther(DatabaseConnection.java:151)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:48)
+
+
+Resources Loaded....
+ 20 Jan 2020 16:24:56 
+
+Resources Loaded....
+ 20 Jan 2020 16:44:32 
+
+Resources Loaded....
+ 20 Jan 2020 16:46:35 
+
+Resources Loaded....
+ 20 Jan 2020 16:47:16 
+
+Resources Loaded....
+ 20 Jan 2020 16:48:20 
+
+Resources Loaded....
+ 20 Jan 2020 16:48:40 
+
+Resources Loaded....
+ 20 Jan 2020 16:49:19 
+
+Resources Loaded....
+ 20 Jan 2020 16:59:06 
+
+Resources Loaded....
+ 20 Jan 2020 17:20:16 For input string: "98786912**"
+ 20 Jan 2020 17:20:18 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@277050dc
+ 20 Jan 2020 17:20:18 java.sql.SQLException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgSentBy(DatabaseConnection.java:231)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:67)
+
+
+Resources Loaded....
+ 20 Jan 2020 17:21:52 For input string: "98786912**"
+ 20 Jan 2020 17:41:44 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@277050dc
+ 20 Jan 2020 17:41:44 java.sql.SQLException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgSentBy(DatabaseConnection.java:231)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:67)
+
+
+Resources Loaded....
+ 20 Jan 2020 17:43:14 
+
+Resources Loaded....
+ 20 Jan 2020 17:43:36 
+
+Resources Loaded....
+ 20 Jan 2020 17:52:54 
+
+Resources Loaded....
+ 20 Jan 2020 17:53:02 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@7ba4f24f
+ 20 Jan 2020 17:53:03 java.util.InputMismatchException
+	at java.util.Scanner.throwFor(Unknown Source)
+	at java.util.Scanner.next(Unknown Source)
+	at java.util.Scanner.nextInt(Unknown Source)
+	at java.util.Scanner.nextInt(Unknown Source)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:28)
+
+
+Resources Loaded....
+ 20 Jan 2020 17:53:33 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@7ba4f24f
+ 20 Jan 2020 17:53:36 java.util.InputMismatchException
+	at java.util.Scanner.throwFor(Unknown Source)
+	at java.util.Scanner.next(Unknown Source)
+	at java.util.Scanner.nextInt(Unknown Source)
+	at java.util.Scanner.nextInt(Unknown Source)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:28)
+
+
+Resources Loaded....
+ 20 Jan 2020 17:53:51 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@7ba4f24f
+ 20 Jan 2020 17:53:52 java.util.InputMismatchException
+	at java.util.Scanner.throwFor(Unknown Source)
+	at java.util.Scanner.next(Unknown Source)
+	at java.util.Scanner.nextInt(Unknown Source)
+	at java.util.Scanner.nextInt(Unknown Source)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:28)
+
+
+Resources Loaded....
+ 20 Jan 2020 17:57:44 
+
+Resources Loaded....
+ 20 Jan 2020 17:57:59 
+
+Resources Loaded....
+ 20 Jan 2020 17:58:18 

@@ -2,6 +2,10 @@ package net.paxcel.ashutoshaneja;
 import java.sql.SQLException;
 import java.util.*;
 
+/**This class executes the Operator Manager, provides Menu for interaction
+ * @author Ashutosh
+ *Methods in this class :- Main Method
+ */
 public class RunOperatorManager {
 
 	private static Scanner scanner =new Scanner(System.in);
@@ -10,16 +14,18 @@ public class RunOperatorManager {
 		try {
 			DatabaseConnection databaseconnection = new DatabaseConnection();
 			LoadResources.areValid();	
+			//Validate Resources and their configuration
+
+			//databaseconnection.insertData();
+
 
 			System.out.println("-- Welcome to Mobile Operator Data Manager --");
-			/*System.out.print("Enter your 10 digit mobile number: ");
 
-			long primaryNo=scanner.nextLong();*/
 
 			System.out.println("\nOperations: -");
-			System.out.println("1. Print messages from your number to any specific number");
-			System.out.println("2. Print messages received from any specific number");
-			System.out.println("3. Print messages sent to any specific number");
+			System.out.println("1. Print messages sent from a number");
+			System.out.println("2. Print messages received by a number");
+			System.out.println("3. Print messages sent from one number to other number");
 			System.out.println("4. Print messages received from any Punjab number");
 			System.out.println("5. Print messages received from any specific Region-Operator");
 			System.out.println("6. Print messages received from any number (Regex Pattern)");
@@ -30,38 +36,66 @@ public class RunOperatorManager {
 			int option=scanner.nextInt();
 			switch(option) {
 			case 1:{
-				System.out.print("Enter sender's number (10-Digit): ");
-				//				long secondaryNo = scanner.nextLong();
-				databaseconnection.insertData(9898989895l);
+				System.out.print("Searching for all Messages sent by \"9814129697\" :-");
+				long primaryNo = 9814129697l;
+				databaseconnection.searchMsgSentBy(String.valueOf(primaryNo));
+
 				break;
 			}
 			case 2:{
+				System.out.print("Searching for all Messages received by \"9814430424\" :-");
+				long primaryNo = 9814430424l;
+				databaseconnection.searchMsgReceivedBy(primaryNo, "anyRegion");
+
 				break;
 			}
 			case 3:{
+				System.out.print("Searching for Messages sent from \"9917213839\" to \"9917226381\" :-");
+				long primaryNo = 9917213839l;
+				long secondaryNo = 9917226381l;
+				databaseconnection.searchMsgFromOneNumberToOther(primaryNo, secondaryNo);
+
 				break;
 			}
 			case 4:{
+				System.out.print("Searching for Messages received by \"9872317017\" from Punjab Number:-");
+				long primaryNo = 9872317017l;
+				databaseconnection.searchMsgReceivedBy(primaryNo, "punjabRegion");
 				break;
 			}
 			case 5:{
+				System.out.print("Searching for Messages received by \"9872317017\" from Jio Punjab Number:-");
+				long primaryNo = 9872317017l;
+				databaseconnection.searchMsgByOperatorAndRegion(primaryNo);
 				break;
 			}
 			case 6:{
+				System.out.println("Searching for Messages received by \"from 99175*****\" :-");
+				String primaryNo = "99175*****";
+				databaseconnection.searchMsgSentBy(primaryNo);
 				break;
 			}
 			case 7:{
+				System.out.println("Searching for Messages received by Punjab Number BUT Failed :-");
+				databaseconnection.searchFailedMsg();
 				break;
 			}
 			default:{
 				System.out.println("Bad Choice :(");
+				System.exit(0);
 				break;
 			}
 			}
 
 		}
-		catch(SQLException sqle) {
-			System.out.println("SQL Exception in DB Connection..");
+		catch(InputMismatchException imexception) {
+			System.out.println("Input Mismatch. Enter only integers!");
+			System.exit(0);
+		}
+		catch(SQLException sqlexception) {
+			System.out.println("Connection could not be established. Try again :(");
+			LoadResources.logger.error("Exception found! \nStackTrace: "+sqlexception.getStackTrace(), sqlexception);
+
 		}
 		catch(Exception exception) {
 			System.out.println("Error encountered. Try again :(");
