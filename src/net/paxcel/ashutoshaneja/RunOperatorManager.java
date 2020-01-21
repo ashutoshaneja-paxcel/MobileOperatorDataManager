@@ -9,10 +9,10 @@ import java.util.*;
 public class RunOperatorManager {
 
 	private static Scanner scanner =new Scanner(System.in);
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 
 		try {
-			DatabaseConnection databaseconnection = new DatabaseConnection();
+			final DatabaseConnection databaseconnection = new DatabaseConnection();
 			LoadResources.areValid();	
 			//Validate Resources and their configuration
 
@@ -33,45 +33,45 @@ public class RunOperatorManager {
 			System.out.println("~ Enter any other key to exit.");
 			System.out.println("Enter your option to perform the specific operation: ");
 
-			int option=scanner.nextInt();
+			final int option=scanner.nextInt();
 			switch(option) {
 			case 1:{
 				System.out.print("Searching for all Messages sent by \"9814129697\" :-");
-				long primaryNo = 9814129697l;
+				final long primaryNo = 9814129697l;
 				databaseconnection.searchMsgSentBy(String.valueOf(primaryNo));
 
 				break;
 			}
 			case 2:{
 				System.out.print("Searching for all Messages received by \"9814430424\" :-");
-				long primaryNo = 9814430424l;
+				final long primaryNo = 9814430424l;
 				databaseconnection.searchMsgReceivedBy(primaryNo, "anyRegion");
 
 				break;
 			}
 			case 3:{
 				System.out.print("Searching for Messages sent from \"9917213839\" to \"9917226381\" :-");
-				long primaryNo = 9917213839l;
-				long secondaryNo = 9917226381l;
+				final long primaryNo = 9917213839l;
+				final long secondaryNo = 9917226381l;
 				databaseconnection.searchMsgFromOneNumberToOther(primaryNo, secondaryNo);
 
 				break;
 			}
 			case 4:{
 				System.out.print("Searching for Messages received by \"9872317017\" from Punjab Number:-");
-				long primaryNo = 9872317017l;
+				final long primaryNo = 9872317017l;
 				databaseconnection.searchMsgReceivedBy(primaryNo, "punjabRegion");
 				break;
 			}
 			case 5:{
 				System.out.print("Searching for Messages received by \"9872317017\" from Jio Punjab Number:-");
-				long primaryNo = 9872317017l;
+				final long primaryNo = 9872317017l;
 				databaseconnection.searchMsgByOperatorAndRegion(primaryNo);
 				break;
 			}
 			case 6:{
 				System.out.println("Searching for Messages received by \"from 99175*****\" :-");
-				String primaryNo = "99175*****";
+				final String primaryNo = "99175*****";
 				databaseconnection.searchMsgSentBy(primaryNo);
 				break;
 			}
@@ -88,12 +88,11 @@ public class RunOperatorManager {
 			}
 
 		}
-		catch(InputMismatchException imexception) {
+		catch(final InputMismatchException imexception) {
 			System.out.println("Input Mismatch. Enter only integers!");
-			LoadResources.logger.error("Input mismatch. System exiting!");
 			System.exit(0);
 		}
-		catch(SQLException sqlexception) {
+		catch(final SQLException sqlexception) {
 			System.out.println("Connection could not be established. Try again :(");
 			LoadResources.logger.error("Exception found! \nStackTrace: "+sqlexception.getStackTrace(), sqlexception);
 
