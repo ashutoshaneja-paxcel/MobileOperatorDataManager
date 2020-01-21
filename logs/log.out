@@ -405,3 +405,182 @@ Resources successfully Loaded....
 Resources successfully Loaded....
  21 Jan 2020 12:04:54 Resources released, System Shutdown!!
  21 Jan 2020 12:04:56 
+
+Resources successfully Loaded....
+ 21 Jan 2020 14:05:52 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@5f184fc6
+ 21 Jan 2020 14:05:55 java.lang.NullPointerException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgSentBy(DatabaseConnection.java:234)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:41)
+Resources released, System Shutdown!!
+ 21 Jan 2020 14:05:55 
+
+Resources successfully Loaded....
+ 21 Jan 2020 14:07:26 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@5f184fc6
+ 21 Jan 2020 14:07:28 java.lang.NullPointerException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgSentBy(DatabaseConnection.java:234)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:41)
+Resources released, System Shutdown!!
+ 21 Jan 2020 14:07:28 
+
+Resources successfully Loaded....
+ 21 Jan 2020 14:08:52 
+ 21 Jan 2020 14:08:53 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@5f184fc6
+ 21 Jan 2020 14:08:53 java.lang.NullPointerException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgSentBy(DatabaseConnection.java:234)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:41)
+Resources released, System Shutdown!!
+ 21 Jan 2020 14:08:53 
+
+Resources successfully Loaded....
+ 21 Jan 2020 14:10:28 Resources released, System Shutdown!!
+ 21 Jan 2020 14:10:29 
+
+Resources successfully Loaded....
+ 21 Jan 2020 14:12:46 Resources released, System Shutdown!!
+ 21 Jan 2020 14:12:51 
+
+Resources successfully Loaded....
+ 21 Jan 2020 14:22:00 Resources released, System Shutdown!!
+ 21 Jan 2020 14:22:02 
+
+Resources successfully Loaded....
+ 21 Jan 2020 14:23:11 Resources released, System Shutdown!!
+ 21 Jan 2020 14:23:12 
+
+Resources successfully Loaded....
+ 21 Jan 2020 14:27:25 Resources released, System Shutdown!!
+ 21 Jan 2020 14:27:27 
+
+Resources successfully Loaded....
+ 21 Jan 2020 14:59:26 Resources released, System Shutdown!!
+ 21 Jan 2020 14:59:28 
+
+Resources successfully Loaded....
+ 21 Jan 2020 15:00:24 Resources released, System Shutdown!!
+ 21 Jan 2020 15:00:26 
+
+Resources successfully Loaded....
+ 21 Jan 2020 15:01:22 Resources released, System Shutdown!!
+ 21 Jan 2020 15:01:24 
+
+Resources successfully Loaded....
+ 21 Jan 2020 15:04:41 Resources released, System Shutdown!!
+ 21 Jan 2020 15:04:42 
+
+Resources successfully Loaded....
+ 21 Jan 2020 15:05:36 Resources released, System Shutdown!!
+ 21 Jan 2020 15:05:38 
+
+Resources successfully Loaded....
+ 21 Jan 2020 15:07:19 Resources released, System Shutdown!!
+ 21 Jan 2020 15:07:20 
+
+Resources successfully Loaded....
+ 21 Jan 2020 15:12:47 Resources released, System Shutdown!!
+ 21 Jan 2020 15:12:49 
+
+Resources successfully Loaded....
+ 21 Jan 2020 15:16:42 Resources released, System Shutdown!!
+ 21 Jan 2020 15:16:43 
+
+Resources successfully Loaded....
+ 21 Jan 2020 15:24:11 Resources released, System Shutdown!!
+ 21 Jan 2020 15:24:13 
+
+Resources successfully Loaded....
+ 21 Jan 2020 15:26:58 Resources released, System Shutdown!!
+ 21 Jan 2020 15:26:59 
+
+Resources successfully Loaded....
+ 21 Jan 2020 15:27:22 Resources released, System Shutdown!!
+ 21 Jan 2020 15:27:25 
+
+Resources successfully Loaded....
+ 21 Jan 2020 16:40:00 Resources released, System Shutdown!!
+ 21 Jan 2020 16:40:02 
+
+Resources successfully Loaded....
+ 21 Jan 2020 16:57:39 Resources released, System Shutdown!!
+ 21 Jan 2020 16:57:42 
+
+Resources successfully Loaded....
+ 21 Jan 2020 17:01:19 
+
+Resources successfully Loaded....
+ 21 Jan 2020 17:01:41 The url cannot be null
+ 21 Jan 2020 17:01:43 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@1d81eb93
+ 21 Jan 2020 17:01:43 java.sql.SQLException
+	at net.paxcel.ashutoshaneja.DatabaseConnection.searchMsgSentBy(DatabaseConnection.java:237)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:41)
+Resources released, System Shutdown!!
+ 21 Jan 2020 17:01:43 
+
+Resources successfully Loaded....
+ 21 Jan 2020 17:08:05 Resources released, System Shutdown!!
+ 21 Jan 2020 17:08:07 
+
+Resources successfully Loaded....
+ 21 Jan 2020 18:11:30 Resources released, System Shutdown!!
+ 21 Jan 2020 18:11:32 
+
+Resources successfully Loaded....
+ 21 Jan 2020 18:11:37 Resources released, System Shutdown!!
+ 21 Jan 2020 18:11:39 
+
+Resources successfully Loaded....
+ 21 Jan 2020 18:11:45 Resources released, System Shutdown!!
+ 21 Jan 2020 18:11:49 
+
+Resources successfully Loaded....
+ 21 Jan 2020 18:11:53 Resources released, System Shutdown!!
+ 21 Jan 2020 18:11:55 
+
+Resources successfully Loaded....
+ 21 Jan 2020 18:11:58 Resources released, System Shutdown!!
+ 21 Jan 2020 18:11:59 
+
+Resources successfully Loaded....
+ 21 Jan 2020 18:12:04 Resources released, System Shutdown!!
+ 21 Jan 2020 18:12:05 
+
+Resources successfully Loaded....
+ 21 Jan 2020 18:12:08 Resources released, System Shutdown!!
+ 21 Jan 2020 18:12:09 
+
+Resources successfully Loaded....
+ 21 Jan 2020 18:35:13 Status of Release: true size:10
+ 21 Jan 2020 18:35:18 Resources released, System Shutdown!!
+ 21 Jan 2020 18:35:18 
+
+Resources successfully Loaded....
+ 21 Jan 2020 18:35:22 Status of Release: true size:10
+ 21 Jan 2020 18:35:23 Resources released, System Shutdown!!
+ 21 Jan 2020 18:35:23 
+
+Resources successfully Loaded....
+ 21 Jan 2020 18:38:09 Connection allocated, Pool Size: 10
+ 21 Jan 2020 18:38:13 Status of Connection Release: true, Pool size:10
+ 21 Jan 2020 18:38:13 Resources released, System Shutdown!!
+ 21 Jan 2020 18:38:13 
+
+Resources successfully Loaded....
+ 21 Jan 2020 18:39:36 Connection allocated, Pool Size: 9
+ 21 Jan 2020 18:39:40 Status of Connection Release: true, Pool size:10
+ 21 Jan 2020 18:39:40 Resources released, System Shutdown!!
+ 21 Jan 2020 18:39:40 
+
+Resources successfully Loaded....
+ 21 Jan 2020 18:39:44 Connection allocated, Pool Size: 9
+ 21 Jan 2020 18:39:45 Status of Connection Release: true, Pool size:10
+ 21 Jan 2020 18:39:45 Resources released, System Shutdown!!
+ 21 Jan 2020 18:39:45 
+
+Resources successfully Loaded....
+ 21 Jan 2020 19:21:22 Connection allocated, Pool Size: 9
+ 21 Jan 2020 19:21:25 Status of Connection Release: true, Pool size:10
+ 21 Jan 2020 19:21:25 Resources released, System Shutdown!!
+ 21 Jan 2020 19:21:25 

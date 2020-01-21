@@ -7,20 +7,29 @@ import java.util.*;
  *Methods in this class :- Main Method
  */
 public class RunOperatorManager {
-
+	
+	private static final String DB_DRIVER_CLASS=LoadResources.dbProperties.getProperty("driver.class.name");
+	private static final String DB_URL=LoadResources.dbProperties.getProperty("db.url");
+	private static final String DB_USER=LoadResources.dbProperties.getProperty("db.user");
+	private static final String DB_PASSWORD=LoadResources.dbProperties.getProperty("db.password");
+	
 	private static Scanner scanner =new Scanner(System.in);
 	public static void main(final String[] args) {
 
 		try {
-			final DatabaseConnection databaseconnection = new DatabaseConnection();
+			DatabaseConnection databaseconnection = new DatabaseConnection();
 			LoadResources.areValid();	
 			//Validate Resources and their configuration
-
+			
+			ConnectionPool.createInitialPool(DB_DRIVER_CLASS, DB_URL, DB_USER, DB_PASSWORD);
+			//Create Initial Connection Pool
+			
+			
 			//databaseconnection.insertData();
+			// Populates the DB Tables with Random Data for performing operations
 
-
+			/*                  ---Menu for User Interaction---                  */
 			System.out.println("-- Welcome to Mobile Operator Data Manager --");
-
 
 			System.out.println("\nOperations: -");
 			System.out.println("1. Print messages sent from a number");
@@ -32,8 +41,10 @@ public class RunOperatorManager {
 			System.out.println("7. Print messages received from any specific region but FAILED");
 			System.out.println("~ Enter any other key to exit.");
 			System.out.println("Enter your option to perform the specific operation: ");
-
+			/*                  ---Menu for User Interaction---                  */
+			
 			final int option=scanner.nextInt();
+			
 			switch(option) {
 			case 1:{
 				System.out.print("Searching for all Messages sent by \"9814129697\" :-");
@@ -95,10 +106,10 @@ public class RunOperatorManager {
 		catch(final SQLException sqlexception) {
 			System.out.println("Connection could not be established. Try again :(");
 			LoadResources.logger.error("Exception found! \nStackTrace: "+sqlexception.getStackTrace(), sqlexception);
-
 		}
 		catch(final Exception exception) {
 			System.out.println("Error encountered. Try again :(");
+			LoadResources.logger.info(exception.getMessage());
 			LoadResources.logger.error("Exception found! \nStackTrace: "+exception.getStackTrace(), exception);
 		}
 		finally{

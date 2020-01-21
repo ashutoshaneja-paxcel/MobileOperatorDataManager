@@ -2,29 +2,40 @@ package net.paxcel.ashutoshaneja;
 import java.sql.*;
 import java.util.*;
 
-
 /**This class establishes all the database connections and executes queries to fetch data
  * @author Ashutosh
  *
  */
-public class DatabaseConnection {
+public class DatabaseConnection implements Runnable  {
 	
-	static Connection connection;
+	boolean isConnectionAvailable() {
+		if(ConnectionPool.getSize()>0) {
+			return true;
+		}
+		else
+			return false;
+	}
 	
-	final static String URL=LoadResources.configProperties.getProperty("connectionURL");
-	final static String user=LoadResources.configProperties.getProperty("user");
-	final static String password=LoadResources.configProperties.getProperty("password");
-	
-	static void getConnection(String URL, String user, String password) throws SQLException, ClassNotFoundException {
-			
-		Class.forName("com.mysql.jdbc.Driver");
-		connection = DriverManager.getConnection(URL, user, password);
+	@Override
+	public void run() {
+		System.out.println("----");
 	}
 
 	// This method populates the tables in Database with Random Data
 	void insertData() throws SQLException {
 
-		try {
+		try{
+			
+			if(isConnectionAvailable()==false) {
+				DatabaseConnection databaseconnection = new DatabaseConnection();
+				Thread thread = new Thread(databaseconnection);
+				thread.start();
+			}
+			
+			Connection connection=ConnectionPool.getConnection();
+			//Fetch Connection from Connection Pool
+			
+			LoadResources.logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
 
 			int recordCount = 0;
 
@@ -34,7 +45,6 @@ public class DatabaseConnection {
 			final String numberInsertionSQL = "INSERT INTO NUMBER_DETAIL(NUMBER,OPERATOR_ID,REGION_ID) VALUES(?,?,?)";
 			final String messageInsertionSQL = "INSERT INTO MESSAGE_DETAIL(FROM_NUMBER,TO_NUMBER,SENT_TIME,RECEIVED_TIME,STATUS,MESSAGE_CONTENT) VALUES (?,?,?,?,?,?)";
 
-			getConnection(URL,user,password);
 
 			final PreparedStatement operatorInsertionPS = connection.prepareStatement(operatorInsertionSQL);
 			final PreparedStatement regionInsertionPS = connection.prepareStatement(regionInsertionSQL);
@@ -101,8 +111,8 @@ public class DatabaseConnection {
 
 			System.out.println(recordCount + " records added!");
 
+			
 			// Insert into MESSAGE_DETAILS;
-
 			for (int j = 0; j < (messageFrom.size()); j++) { // add even number of senders and receivers
 
 				final long fromNumber = messageFrom.get(j);
@@ -120,21 +130,26 @@ public class DatabaseConnection {
 
 			LoadResources.logger.info(recordCount + " record inserted!");
 
-			// connection.close();
+			
+			boolean releaseOutcome=ConnectionPool.releaseConnection(connection);
+
+			LoadResources.logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
+
 		} catch (final Exception exception) {
 			System.out.println("\nException while inserting data: " + exception.getMessage());
-			LoadResources.logger.error("Exception found in DB Connection.\nStack Trace: " + exception.getStackTrace(),
-					exception);
-		} finally {
-			connection.close();
+			LoadResources.logger.error("Exception found in DB Connection.\nStack Trace: " + exception.getStackTrace(), exception);
 		}
 	}
 
 	void searchMsgFromOneNumberToOther(final long primaryNo, final long secondaryNo) throws SQLException {
 		try {
-			final String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER=? AND TO_NUMBER=?";
+			
+			Connection connection=ConnectionPool.getConnection();
+			//fetch connection from Connection Pool
 
-			getConnection(URL,user,password);
+			LoadResources.logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
+			
+			final String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER=? AND TO_NUMBER=?";
 
 			final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
@@ -148,15 +163,25 @@ public class DatabaseConnection {
 				System.out.println(resultset.getString(1) + "\n");
 			}
 
+
+			boolean releaseOutcome=ConnectionPool.releaseConnection(connection);
+
+			LoadResources.logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
+
+			
 		} catch (final Exception e) {
+			LoadResources.logger.error(e.getMessage());
 			throw new SQLException();
-		} finally {
-			connection.close();
 		}
 	}
 
 	void searchMsgReceivedBy(final long primaryNo, final String region) throws SQLException {
-		try {
+		try{
+			
+			Connection connection=ConnectionPool.getConnection();
+			//Fetch connection from Connection Pool
+
+			LoadResources.logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
 
 			String searchMsgSQL = "";
 
@@ -167,8 +192,6 @@ public class DatabaseConnection {
 			else if (region.equalsIgnoreCase("punjabRegion")) {
 				searchMsgSQL = "SELECT * FROM MESSAGE_DETAIL INNER JOIN NUMBER_DETAIL WHERE NUMBER_DETAIL.REGION_ID=? AND MESSAGE_DETAIL.FROM_NUMBER=NUMBER_DETAIL.NUMBER AND MESSAGE_DETAIL.TO_NUMBER=?;";
 			}
-
-			getConnection(URL,user,password);
 
 			final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
@@ -188,19 +211,25 @@ public class DatabaseConnection {
 				System.out.println(resultset.getString("MESSAGE_CONTENT") + "\n");
 			}
 
+
+			boolean releaseOutcome=ConnectionPool.releaseConnection(connection);
+
+			LoadResources.logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
+
 		} catch (final Exception e) {
+			LoadResources.logger.error(e.getMessage());
 			throw new SQLException();
-		} finally {
-			connection.close();
 		}
 	}
 
 	void searchMsgSentBy(final String primaryNo) throws Exception {
+
 		try {
 
-			Class.forName("com.mysql.jdbc.Driver");
+			Connection connection=ConnectionPool.getConnection();
+			//Fetch Connection from Connection Pool
 
-			getConnection(URL,user,password);
+			LoadResources.logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
 
 			if (primaryNo.contains("**")) {
 				final String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER LIKE \"99175_____\"";
@@ -227,20 +256,26 @@ public class DatabaseConnection {
 				}
 			}
 
+
+			boolean releaseOutcome=ConnectionPool.releaseConnection(connection);
+
+			LoadResources.logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
+
 		} catch (final Exception e) {
 			LoadResources.logger.error(e.getMessage());
 			throw new SQLException();
-		} finally {
-			connection.close();
-		}
+		} 
 	}
 
 	void searchMsgByOperatorAndRegion(final long primaryNo) throws SQLException {
 		try {
+			
+			Connection connection=ConnectionPool.getConnection();
+			//Fetch Connection from Connection Pool
+
+			LoadResources.logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
 
 			final String searchMsgSQL = "SELECT * FROM MESSAGE_DETAIL INNER JOIN NUMBER_DETAIL WHERE NUMBER_DETAIL.REGION_ID=? AND MESSAGE_DETAIL.FROM_NUMBER=NUMBER_DETAIL.NUMBER AND MESSAGE_DETAIL.TO_NUMBER=? AND NUMBER_DETAIL.OPERATOR_ID=?;";
-
-			getConnection(URL,user,password);
 
 			final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
@@ -255,19 +290,27 @@ public class DatabaseConnection {
 				System.out.println(resultset.getString("MESSAGE_CONTENT") + "\n");
 			}
 
+			boolean releaseOutcome=ConnectionPool.releaseConnection(connection);
+
+			LoadResources.logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
+
 		} catch (final Exception e) {
+			LoadResources.logger.error(e.getMessage());
 			throw new SQLException();
-		} finally {
-			connection.close();
 		}
 	}
 
 	void searchFailedMsg() throws SQLException {
 		try {
+			
+			
+			Connection connection=ConnectionPool.getConnection();
+			
+			//Fetch Connection from Connection Pool
+
+			LoadResources.logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
 
 			final String searchMsgSQL = "SELECT * FROM MESSAGE_DETAIL INNER JOIN NUMBER_DETAIL WHERE NUMBER_DETAIL.REGION_ID=? AND MESSAGE_DETAIL.FROM_NUMBER=NUMBER_DETAIL.NUMBER AND MESSAGE_DETAIL.STATUS='F';";
-
-			getConnection(URL,user,password);
 
 			final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
@@ -279,12 +322,15 @@ public class DatabaseConnection {
 			while (resultset.next()) {
 				System.out.println(resultset.getString("MESSAGE_CONTENT") + "\n");
 			}
+			
+			boolean releaseOutcome=ConnectionPool.releaseConnection(connection);
 
+			LoadResources.logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
+
+			
 		} catch (final Exception e) {
+			LoadResources.logger.error(e.getMessage());
 			throw new SQLException();
-		}
-		finally {
-			connection.close();
 		}
 	}
 }
