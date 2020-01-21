@@ -97,7 +97,7 @@ public class RunOperatorManager {
 			LoadResources.logger.error("Exception found! \nStackTrace: "+sqlexception.getStackTrace(), sqlexception);
 
 		}
-		catch(Exception exception) {
+		catch(final Exception exception) {
 			System.out.println("Error encountered. Try again :(");
 			LoadResources.logger.error("Exception found! \nStackTrace: "+exception.getStackTrace(), exception);
 		}
