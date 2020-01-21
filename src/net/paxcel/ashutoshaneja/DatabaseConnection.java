@@ -8,7 +8,18 @@ import java.util.*;
  *
  */
 public class DatabaseConnection {
-	Connection connection;
+	
+	static Connection connection;
+	
+	final static String URL=LoadResources.configProperties.getProperty("connectionURL");
+	final static String user=LoadResources.configProperties.getProperty("user");
+	final static String password=LoadResources.configProperties.getProperty("password");
+	
+	static void getConnection(String URL, String user, String password) throws SQLException, ClassNotFoundException {
+			
+		Class.forName("com.mysql.jdbc.Driver");
+		connection = DriverManager.getConnection(URL, user, password);
+	}
 
 	// This method populates the tables in Database with Random Data
 	void insertData() throws SQLException {
@@ -23,11 +34,7 @@ public class DatabaseConnection {
 			final String numberInsertionSQL = "INSERT INTO NUMBER_DETAIL(NUMBER,OPERATOR_ID,REGION_ID) VALUES(?,?,?)";
 			final String messageInsertionSQL = "INSERT INTO MESSAGE_DETAIL(FROM_NUMBER,TO_NUMBER,SENT_TIME,RECEIVED_TIME,STATUS,MESSAGE_CONTENT) VALUES (?,?,?,?,?,?)";
 
-			Class.forName("com.mysql.jdbc.Driver");
-
-			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"),
-					LoadResources.configProperties.getProperty("username"),
-					LoadResources.configProperties.getProperty("password"));
+			getConnection(URL,user,password);
 
 			final PreparedStatement operatorInsertionPS = connection.prepareStatement(operatorInsertionSQL);
 			final PreparedStatement regionInsertionPS = connection.prepareStatement(regionInsertionSQL);
@@ -127,10 +134,7 @@ public class DatabaseConnection {
 		try {
 			final String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER=? AND TO_NUMBER=?";
 
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"),
-					LoadResources.configProperties.getProperty("username"),
-					LoadResources.configProperties.getProperty("password"));
+			getConnection(URL,user,password);
 
 			final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
@@ -164,10 +168,7 @@ public class DatabaseConnection {
 				searchMsgSQL = "SELECT * FROM MESSAGE_DETAIL INNER JOIN NUMBER_DETAIL WHERE NUMBER_DETAIL.REGION_ID=? AND MESSAGE_DETAIL.FROM_NUMBER=NUMBER_DETAIL.NUMBER AND MESSAGE_DETAIL.TO_NUMBER=?;";
 			}
 
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"),
-					LoadResources.configProperties.getProperty("username"),
-					LoadResources.configProperties.getProperty("password"));
+			getConnection(URL,user,password);
 
 			final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
@@ -199,9 +200,7 @@ public class DatabaseConnection {
 
 			Class.forName("com.mysql.jdbc.Driver");
 
-			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"),
-					LoadResources.configProperties.getProperty("username"),
-					LoadResources.configProperties.getProperty("password"));
+			getConnection(URL,user,password);
 
 			if (primaryNo.contains("**")) {
 				final String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER LIKE \"99175_____\"";
@@ -241,10 +240,7 @@ public class DatabaseConnection {
 
 			final String searchMsgSQL = "SELECT * FROM MESSAGE_DETAIL INNER JOIN NUMBER_DETAIL WHERE NUMBER_DETAIL.REGION_ID=? AND MESSAGE_DETAIL.FROM_NUMBER=NUMBER_DETAIL.NUMBER AND MESSAGE_DETAIL.TO_NUMBER=? AND NUMBER_DETAIL.OPERATOR_ID=?;";
 
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"),
-					LoadResources.configProperties.getProperty("username"),
-					LoadResources.configProperties.getProperty("password"));
+			getConnection(URL,user,password);
 
 			final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
@@ -271,10 +267,7 @@ public class DatabaseConnection {
 
 			final String searchMsgSQL = "SELECT * FROM MESSAGE_DETAIL INNER JOIN NUMBER_DETAIL WHERE NUMBER_DETAIL.REGION_ID=? AND MESSAGE_DETAIL.FROM_NUMBER=NUMBER_DETAIL.NUMBER AND MESSAGE_DETAIL.STATUS='F';";
 
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"),
-					LoadResources.configProperties.getProperty("username"),
-					LoadResources.configProperties.getProperty("password"));
+			getConnection(URL,user,password);
 
 			final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
