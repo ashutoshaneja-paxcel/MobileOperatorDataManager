@@ -37,7 +37,7 @@ class LoadResources {
 
 			logger.info("\n\nResources successfully Loaded....");
 		} 
-		catch (Exception exception){
+		catch (final Exception exception){
 			System.out.println("Resources couldn't be loaded. Try again :(");
 			logger.info("Unsuccessful Resources Load. Find Stack Trace on below line");
 			logger.error(exception.getStackTrace(),exception);

@@ -343,4 +343,37 @@ Resources Loaded....
  20 Jan 2020 17:57:59 
 
 Resources Loaded....
- 20 Jan 2020 17:58:18 
+ 20 Jan 2020 17:58:18 Exception found! 
+StackTrace: [Ljava.lang.StackTraceElement;@42110406
+ 20 Jan 2020 18:49:04 java.util.NoSuchElementException
+	at java.util.Scanner.throwFor(Unknown Source)
+	at java.util.Scanner.next(Unknown Source)
+	at java.util.Scanner.nextInt(Unknown Source)
+	at java.util.Scanner.nextInt(Unknown Source)
+	at net.paxcel.ashutoshaneja.RunOperatorManager.main(RunOperatorManager.java:29)
+
+
+Resources successfully Loaded....
+ 21 Jan 2020 11:11:58 
+
+Resources successfully Loaded....
+ 21 Jan 2020 11:12:07 
+
+Resources successfully Loaded....
+ 21 Jan 2020 11:12:11 
+
+Resources successfully Loaded....
+ 21 Jan 2020 11:12:16 
+
+Resources successfully Loaded....
+ 21 Jan 2020 11:12:19 
+
+Resources successfully Loaded....
+ 21 Jan 2020 11:12:24 
+
+Resources successfully Loaded....
+ 21 Jan 2020 11:12:29 
+
+Resources successfully Loaded....
+ 21 Jan 2020 11:15:25 Resources released, System Shutdown!!
+ 21 Jan 2020 11:15:28 

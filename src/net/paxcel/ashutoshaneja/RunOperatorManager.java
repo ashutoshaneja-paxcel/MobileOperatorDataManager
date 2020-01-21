@@ -90,6 +90,7 @@ public class RunOperatorManager {
 		}
 		catch(InputMismatchException imexception) {
 			System.out.println("Input Mismatch. Enter only integers!");
+			LoadResources.logger.error("Input mismatch. System exiting!");
 			System.exit(0);
 		}
 		catch(SQLException sqlexception) {
@@ -100,6 +101,9 @@ public class RunOperatorManager {
 		catch(Exception exception) {
 			System.out.println("Error encountered. Try again :(");
 			LoadResources.logger.error("Exception found! \nStackTrace: "+exception.getStackTrace(), exception);
+		}
+		finally{
+			LoadResources.logger.info("Resources released, System Shutdown!!");
 		}
 
 	}

@@ -17,54 +17,50 @@ public class DatabaseConnection {
 
 			int recordCount = 0;
 
-			String operatorInsertionSQL = "INSERT INTO OPERATOR(OPERATOR_NAME) VALUES(?)";
-			String regionInsertionSQL = "INSERT INTO REGION(REGION_NAME) VALUES(?)";
-			String rangeInsertionSQL = "INSERT INTO OPERATOR_RANGE VALUES(?,?,?)";
-			String numberInsertionSQL = "INSERT INTO NUMBER_DETAIL(NUMBER,OPERATOR_ID,REGION_ID) VALUES(?,?,?)";
-			String messageInsertionSQL = "INSERT INTO MESSAGE_DETAIL(FROM_NUMBER,TO_NUMBER,SENT_TIME,RECEIVED_TIME,STATUS,MESSAGE_CONTENT) VALUES (?,?,?,?,?,?)";
-
+			final String operatorInsertionSQL = "INSERT INTO OPERATOR(OPERATOR_NAME) VALUES(?)";
+			final String regionInsertionSQL = "INSERT INTO REGION(REGION_NAME) VALUES(?)";
+			final String rangeInsertionSQL = "INSERT INTO OPERATOR_RANGE VALUES(?,?,?)";
+			final String numberInsertionSQL = "INSERT INTO NUMBER_DETAIL(NUMBER,OPERATOR_ID,REGION_ID) VALUES(?,?,?)";
+			final String messageInsertionSQL = "INSERT INTO MESSAGE_DETAIL(FROM_NUMBER,TO_NUMBER,SENT_TIME,RECEIVED_TIME,STATUS,MESSAGE_CONTENT) VALUES (?,?,?,?,?,?)";
 
 			Class.forName("com.mysql.jdbc.Driver");
 
-			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"), LoadResources.configProperties.getProperty("username"), LoadResources.configProperties.getProperty("password"));
+			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"),
+					LoadResources.configProperties.getProperty("username"),
+					LoadResources.configProperties.getProperty("password"));
 
-			PreparedStatement operatorInsertionPS = connection.prepareStatement(operatorInsertionSQL);
-			PreparedStatement regionInsertionPS = connection.prepareStatement(regionInsertionSQL);
-			PreparedStatement rangeInsertionPS = connection.prepareStatement(rangeInsertionSQL);
-			PreparedStatement numberInsertionPS = connection.prepareStatement(numberInsertionSQL);
-			PreparedStatement messageInsertionPS = connection.prepareStatement(messageInsertionSQL);
+			final PreparedStatement operatorInsertionPS = connection.prepareStatement(operatorInsertionSQL);
+			final PreparedStatement regionInsertionPS = connection.prepareStatement(regionInsertionSQL);
+			final PreparedStatement rangeInsertionPS = connection.prepareStatement(rangeInsertionSQL);
+			final PreparedStatement numberInsertionPS = connection.prepareStatement(numberInsertionSQL);
+			final PreparedStatement messageInsertionPS = connection.prepareStatement(messageInsertionSQL);
 
+			// Add Operator List
+			final List<String> operatorList = GenerateData.getOperatorList();
+			final int operatorListSize = operatorList.size();
 
-			//Add Operator List
-			List<String>operatorList=GenerateData.getOperatorList();
-			int operatorListSize = operatorList.size();
-
-			for(int i=0;i<operatorListSize;i++) {
-				String operator= operatorList.get(i);
-				operatorInsertionPS.setString(1,operator);
+			for (int i = 0; i < operatorListSize; i++) {
+				final String operator = operatorList.get(i);
+				operatorInsertionPS.setString(1, operator);
 
 				operatorInsertionPS.executeUpdate();
 			}
 
+			// Add Region List
+			final List<String> regionList = GenerateData.getRegionList();
+			final int regionListSize = regionList.size();
 
-
-			//Add Region List
-			List<String>regionList=GenerateData.getRegionList();
-			int regionListSize = regionList.size();
-
-			for(int i=0;i<regionListSize;i++) {
+			for (int i = 0; i < regionListSize; i++) {
 				regionInsertionPS.setString(1, regionList.get(i));
 
 				regionInsertionPS.executeUpdate();
 			}
 
+			// Insert Range
+			final List<String> rangeList = GenerateData.getRangeList();
+			final int rangeListSize = rangeList.size();
 
-
-			//Insert Range
-			List<String>rangeList=GenerateData.getRangeList();
-			int rangeListSize = rangeList.size();
-
-			for(int i=0;i<rangeListSize;i++) {
+			for (int i = 0; i < rangeListSize; i++) {
 				rangeInsertionPS.setString(1, rangeList.get(i));
 				rangeInsertionPS.setInt(2, GenerateData.findOperator(rangeList.get(i)));
 				rangeInsertionPS.setInt(3, GenerateData.findRegion(rangeList.get(i)));
@@ -72,26 +68,22 @@ public class DatabaseConnection {
 				rangeInsertionPS.executeUpdate();
 			}
 
+			// Insert all the Numbers
+			final List<Long> totalNumberList = GenerateData.getNumberList();
+			final int numbersListSize = totalNumberList.size();
 
+			final List<Long> messageFrom = new ArrayList<>(totalNumberList.subList(0, (numbersListSize / 2)));
+			final List<Long> messageTo = new ArrayList<>(
+					totalNumberList.subList((numbersListSize / 2), numbersListSize));
 
-			//Insert all the Numbers
-			List<Long> totalNumberList= GenerateData.getNumberList();
-			int numbersListSize = totalNumberList.size();
-
-			List<Long> messageFrom = new ArrayList<>(totalNumberList.subList(0, (numbersListSize/2) ));
-			List<Long> messageTo = new ArrayList<>(totalNumberList.subList((numbersListSize/2), numbersListSize));
-
-			Set<Long> withoutDuplicateNumber = new LinkedHashSet<>();
+			final Set<Long> withoutDuplicateNumber = new LinkedHashSet<>();
 			withoutDuplicateNumber.addAll(totalNumberList);
 			totalNumberList.clear();
 			totalNumberList.addAll(withoutDuplicateNumber);
 
+			for (int i = 0; i < totalNumberList.size(); i++) {
 
-
-
-			for(int i=0; i<totalNumberList.size(); i++) {
-
-				long number = totalNumberList.get(i);
+				final long number = totalNumberList.get(i);
 
 				numberInsertionPS.setLong(1, number);
 				numberInsertionPS.setInt(2, GenerateData.findOperator(String.valueOf(number)));
@@ -100,206 +92,202 @@ public class DatabaseConnection {
 				recordCount += numberInsertionPS.executeUpdate();
 			}
 
-			System.out.println(recordCount+" records added!");
+			System.out.println(recordCount + " records added!");
 
-			//Insert into MESSAGE_DETAILS;
+			// Insert into MESSAGE_DETAILS;
 
-			for(int j=0; j<(messageFrom.size()); j++) {		//add even number of senders and receivers
+			for (int j = 0; j < (messageFrom.size()); j++) { // add even number of senders and receivers
 
-				long fromNumber = messageFrom.get(j);
-				long toNumber = messageTo.get(j);
+				final long fromNumber = messageFrom.get(j);
+				final long toNumber = messageTo.get(j);
 
 				messageInsertionPS.setLong(1, fromNumber);
 				messageInsertionPS.setLong(2, toNumber);
 				messageInsertionPS.setString(3, GenerateData.getTime());
 				messageInsertionPS.setString(4, GenerateData.getTime());
-				messageInsertionPS.setString(5,GenerateData.getStatus());
+				messageInsertionPS.setString(5, GenerateData.getStatus());
 				messageInsertionPS.setString(6, GenerateData.getMessage());
-
 
 				recordCount += messageInsertionPS.executeUpdate();
 			}
 
-			LoadResources.logger.info(recordCount+" record inserted!");
+			LoadResources.logger.info(recordCount + " record inserted!");
 
-			//			connection.close();
-		}
-		catch(Exception exception) {
-			System.out.println("\nException while inserting data: "+exception.getMessage());
-			LoadResources.logger.error("Exception found in DB Connection.\nStack Trace: "+exception.getStackTrace(), exception);
-		}
-		finally {
+			// connection.close();
+		} catch (final Exception exception) {
+			System.out.println("\nException while inserting data: " + exception.getMessage());
+			LoadResources.logger.error("Exception found in DB Connection.\nStack Trace: " + exception.getStackTrace(),
+					exception);
+		} finally {
 			connection.close();
 		}
 	}
 
-
-	void searchMsgFromOneNumberToOther(long primaryNo, long secondaryNo)throws SQLException {
+	void searchMsgFromOneNumberToOther(final long primaryNo, final long secondaryNo) throws SQLException {
 		try {
-			String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER=? AND TO_NUMBER=?";
+			final String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER=? AND TO_NUMBER=?";
 
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"), LoadResources.configProperties.getProperty("username"), LoadResources.configProperties.getProperty("password"));
+			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"),
+					LoadResources.configProperties.getProperty("username"),
+					LoadResources.configProperties.getProperty("password"));
 
-			PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
+			final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
 			searchpreparedstmt.setLong(1, primaryNo);
 			searchpreparedstmt.setLong(2, secondaryNo);
-			ResultSet resultset = searchpreparedstmt.executeQuery();
+			final ResultSet resultset = searchpreparedstmt.executeQuery();
 
 			System.out.println();
 
-			while(resultset.next()) {
-				System.out.println(resultset.getString(1)+"\n");
+			while (resultset.next()) {
+				System.out.println(resultset.getString(1) + "\n");
 			}
 
-		}
-		catch(Exception e) {
+		} catch (final Exception e) {
 			throw new SQLException();
-		}
-		finally {
+		} finally {
 			connection.close();
 		}
 	}
-	void searchMsgReceivedBy(long primaryNo, String region)throws SQLException {
+
+	void searchMsgReceivedBy(final long primaryNo, final String region) throws SQLException {
 		try {
 
-			String searchMsgSQL="";
+			String searchMsgSQL = "";
 
-			if(region.equalsIgnoreCase("anyRegion")) {
+			if (region.equalsIgnoreCase("anyRegion")) {
 				searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE TO_NUMBER=?";
 			}
 
-			else if(region.equalsIgnoreCase("punjabRegion")) {
+			else if (region.equalsIgnoreCase("punjabRegion")) {
 				searchMsgSQL = "SELECT * FROM MESSAGE_DETAIL INNER JOIN NUMBER_DETAIL WHERE NUMBER_DETAIL.REGION_ID=? AND MESSAGE_DETAIL.FROM_NUMBER=NUMBER_DETAIL.NUMBER AND MESSAGE_DETAIL.TO_NUMBER=?;";
 			}
 
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"), LoadResources.configProperties.getProperty("username"), LoadResources.configProperties.getProperty("password"));
+			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"),
+					LoadResources.configProperties.getProperty("username"),
+					LoadResources.configProperties.getProperty("password"));
 
-			PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
+			final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
-			if(region.equalsIgnoreCase("anyRegion")) {
+			if (region.equalsIgnoreCase("anyRegion")) {
 				searchpreparedstmt.setLong(1, primaryNo);
 			}
 
-			else if(region.equalsIgnoreCase("punjabRegion")) {
+			else if (region.equalsIgnoreCase("punjabRegion")) {
 				searchpreparedstmt.setInt(1, 2);
 				searchpreparedstmt.setLong(2, primaryNo);
 			}
-			ResultSet resultset = searchpreparedstmt.executeQuery();
+			final ResultSet resultset = searchpreparedstmt.executeQuery();
 
 			System.out.println();
 
-			while(resultset.next()) {
-				System.out.println(resultset.getString("MESSAGE_CONTENT")+"\n");
+			while (resultset.next()) {
+				System.out.println(resultset.getString("MESSAGE_CONTENT") + "\n");
 			}
 
-		}
-		catch(Exception e) {
+		} catch (final Exception e) {
 			throw new SQLException();
-		}
-		finally {
+		} finally {
 			connection.close();
 		}
 	}
 
-	void searchMsgSentBy(String primaryNo)throws Exception {
+	void searchMsgSentBy(final String primaryNo) throws Exception {
 		try {
 
 			Class.forName("com.mysql.jdbc.Driver");
 
-			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"), LoadResources.configProperties.getProperty("username"), LoadResources.configProperties.getProperty("password"));
+			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"),
+					LoadResources.configProperties.getProperty("username"),
+					LoadResources.configProperties.getProperty("password"));
 
-			if(primaryNo.contains("**")) {
-				String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER LIKE \"99175_____\""; 
-				PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
-				ResultSet resultset = searchpreparedstmt.executeQuery();
+			if (primaryNo.contains("**")) {
+				final String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER LIKE \"99175_____\"";
+				final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
+				final ResultSet resultset = searchpreparedstmt.executeQuery();
 
 				System.out.println();
 
-				while(resultset.next()) {
-					System.out.println(resultset.getString(1)+"\n");
+				while (resultset.next()) {
+					System.out.println(resultset.getString(1) + "\n");
 				}
-			}
-			else {
-				String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER=?";
+			} else {
+				final String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER=?";
 
-				PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
+				final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
 				searchpreparedstmt.setLong(1, Long.parseLong(primaryNo));
-				ResultSet resultset = searchpreparedstmt.executeQuery();
+				final ResultSet resultset = searchpreparedstmt.executeQuery();
 
 				System.out.println();
 
-				while(resultset.next()) {
-					System.out.println(resultset.getString(1)+"\n");
+				while (resultset.next()) {
+					System.out.println(resultset.getString(1) + "\n");
 				}
 			}
 
-		}
-		catch(Exception e) {
+		} catch (final Exception e) {
 			LoadResources.logger.error(e.getMessage());
 			throw new SQLException();
-		}
-		finally {
+		} finally {
 			connection.close();
 		}
 	}
 
-	void searchMsgByOperatorAndRegion(long primaryNo)throws SQLException {
+	void searchMsgByOperatorAndRegion(final long primaryNo) throws SQLException {
 		try {
 
-			String searchMsgSQL = "SELECT * FROM MESSAGE_DETAIL INNER JOIN NUMBER_DETAIL WHERE NUMBER_DETAIL.REGION_ID=? AND MESSAGE_DETAIL.FROM_NUMBER=NUMBER_DETAIL.NUMBER AND MESSAGE_DETAIL.TO_NUMBER=? AND NUMBER_DETAIL.OPERATOR_ID=?;";
-
+			final String searchMsgSQL = "SELECT * FROM MESSAGE_DETAIL INNER JOIN NUMBER_DETAIL WHERE NUMBER_DETAIL.REGION_ID=? AND MESSAGE_DETAIL.FROM_NUMBER=NUMBER_DETAIL.NUMBER AND MESSAGE_DETAIL.TO_NUMBER=? AND NUMBER_DETAIL.OPERATOR_ID=?;";
 
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"), LoadResources.configProperties.getProperty("username"), LoadResources.configProperties.getProperty("password"));
+			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"),
+					LoadResources.configProperties.getProperty("username"),
+					LoadResources.configProperties.getProperty("password"));
 
-			PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
+			final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
-			searchpreparedstmt.setInt(1, 2);	//2 is Region id for Punjab
+			searchpreparedstmt.setInt(1, 2); // 2 is Region id for Punjab
 			searchpreparedstmt.setLong(2, primaryNo);
-			searchpreparedstmt.setInt(3, 4);	//4 is Operator id for Jio
-			ResultSet resultset = searchpreparedstmt.executeQuery();
+			searchpreparedstmt.setInt(3, 4); // 4 is Operator id for Jio
+			final ResultSet resultset = searchpreparedstmt.executeQuery();
 
 			System.out.println();
 
-			while(resultset.next()) {
-				System.out.println(resultset.getString("MESSAGE_CONTENT")+"\n");
+			while (resultset.next()) {
+				System.out.println(resultset.getString("MESSAGE_CONTENT") + "\n");
 			}
 
-		}
-		catch(Exception e) {
+		} catch (final Exception e) {
 			throw new SQLException();
-		}
-		finally {
+		} finally {
 			connection.close();
 		}
 	}
 
-	void searchFailedMsg()throws SQLException {
+	void searchFailedMsg() throws SQLException {
 		try {
 
-			String searchMsgSQL = "SELECT * FROM MESSAGE_DETAIL INNER JOIN NUMBER_DETAIL WHERE NUMBER_DETAIL.REGION_ID=? AND MESSAGE_DETAIL.FROM_NUMBER=NUMBER_DETAIL.NUMBER AND MESSAGE_DETAIL.STATUS='F';";
-
+			final String searchMsgSQL = "SELECT * FROM MESSAGE_DETAIL INNER JOIN NUMBER_DETAIL WHERE NUMBER_DETAIL.REGION_ID=? AND MESSAGE_DETAIL.FROM_NUMBER=NUMBER_DETAIL.NUMBER AND MESSAGE_DETAIL.STATUS='F';";
 
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"), LoadResources.configProperties.getProperty("username"), LoadResources.configProperties.getProperty("password"));
+			connection = DriverManager.getConnection(LoadResources.configProperties.getProperty("connectionURL"),
+					LoadResources.configProperties.getProperty("username"),
+					LoadResources.configProperties.getProperty("password"));
 
-			PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
+			final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
-			searchpreparedstmt.setInt(1, 2); //2 is Region id for Punjab
-			ResultSet resultset = searchpreparedstmt.executeQuery();
+			searchpreparedstmt.setInt(1, 2); // 2 is Region id for Punjab
+			final ResultSet resultset = searchpreparedstmt.executeQuery();
 
 			System.out.println();
 
-			while(resultset.next()) {
-				System.out.println(resultset.getString("MESSAGE_CONTENT")+"\n");
+			while (resultset.next()) {
+				System.out.println(resultset.getString("MESSAGE_CONTENT") + "\n");
 			}
 
-		}
-		catch(Exception e) {
+		} catch (final Exception e) {
 			throw new SQLException();
 		}
 		finally {
