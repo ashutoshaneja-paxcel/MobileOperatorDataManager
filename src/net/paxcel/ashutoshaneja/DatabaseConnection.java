@@ -176,7 +176,7 @@ public class DatabaseConnection {
 			}
 
 			else if (region.equalsIgnoreCase("punjabRegion")) {
-				searchpreparedstmt.setInt(1, 2);
+				searchpreparedstmt.setInt(1, 2); //2 is Region id for Punjab
 				searchpreparedstmt.setLong(2, primaryNo);
 			}
 			final ResultSet resultset = searchpreparedstmt.executeQuery();
