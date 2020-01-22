@@ -1,41 +1,39 @@
 package net.paxcel.ashutoshaneja;
 import java.sql.*;
 import java.util.*;
+import static net.paxcel.ashutoshaneja.LoadResources.*;
 
 /**This class establishes all the database connections and executes queries to fetch data
  * @author Ashutosh
  *
  */
-public class DatabaseConnection implements Runnable  {
-	
-	boolean isConnectionAvailable() {
-		if(ConnectionPool.getSize()>0) {
-			return true;
-		}
-		else
-			return false;
-	}
-	
-	@Override
-	public void run() {
-		System.out.println("----");
+public class DatabaseConnection {
+
+	private static final String DB_DRIVER_CLASS = dbProperties.getProperty("driver.class.name");
+	private static final String DB_URL = dbProperties.getProperty("db.url");
+	private static final String DB_USER = dbProperties.getProperty("db.user");
+	private static final String DB_PASSWORD = dbProperties.getProperty("db.password");
+	static List<String> messageContent;
+
+	static boolean createConnectionPool() throws ClassNotFoundException, SQLException {
+		boolean isConnectionPoolAvailable = ConnectionPool.createInitialPool(DB_DRIVER_CLASS, DB_URL, DB_USER, DB_PASSWORD);
+		//Create Initial Connection Pool
+
+		return isConnectionPoolAvailable;
 	}
 
-	// This method populates the tables in Database with Random Data
-	void insertData() throws SQLException {
+
+
+
+	// ------------------ This method populates the tables in Database with Random Data ------------------ 
+	static void insertData() throws SQLException {
 
 		try{
-			
-			if(isConnectionAvailable()==false) {
-				DatabaseConnection databaseconnection = new DatabaseConnection();
-				Thread thread = new Thread(databaseconnection);
-				thread.start();
-			}
-			
+
 			Connection connection=ConnectionPool.getConnection();
 			//Fetch Connection from Connection Pool
-			
-			LoadResources.logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
+
+			logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
 
 			int recordCount = 0;
 
@@ -111,7 +109,7 @@ public class DatabaseConnection implements Runnable  {
 
 			System.out.println(recordCount + " records added!");
 
-			
+
 			// Insert into MESSAGE_DETAILS;
 			for (int j = 0; j < (messageFrom.size()); j++) { // add even number of senders and receivers
 
@@ -128,60 +126,84 @@ public class DatabaseConnection implements Runnable  {
 				recordCount += messageInsertionPS.executeUpdate();
 			}
 
-			LoadResources.logger.info(recordCount + " record inserted!");
+			logger.info(recordCount + " record inserted!");
 
-			
+
 			boolean releaseOutcome=ConnectionPool.releaseConnection(connection);
 
-			LoadResources.logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
+			logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
 
 		} catch (final Exception exception) {
 			System.out.println("\nException while inserting data: " + exception.getMessage());
-			LoadResources.logger.error("Exception found in DB Connection.\nStack Trace: " + exception.getStackTrace(), exception);
+			logger.error("Exception found in DB Connection.\nStack Trace: " + exception.getStackTrace(), exception);
 		}
 	}
 
-	void searchMsgFromOneNumberToOther(final long primaryNo, final long secondaryNo) throws SQLException {
+
+
+
+	// ------------------ This method searches for messages sent by a number ------------------ 
+	static List<String> searchMsgSentBy(final String primaryNo) throws Exception {
+
 		try {
-			
+
 			Connection connection=ConnectionPool.getConnection();
-			//fetch connection from Connection Pool
+			//Fetch Connection from Connection Pool
 
-			LoadResources.logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
+			logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
 			
-			final String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER=? AND TO_NUMBER=?";
+			
 
-			final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
+			if (primaryNo.contains("**")) {
+				final String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER LIKE \"99175_____\"";
+				final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
+				final ResultSet resultset = searchpreparedstmt.executeQuery();
 
-			searchpreparedstmt.setLong(1, primaryNo);
-			searchpreparedstmt.setLong(2, secondaryNo);
-			final ResultSet resultset = searchpreparedstmt.executeQuery();
+				System.out.println();
+				 messageContent = new ArrayList<String>();
+				 
+				while (resultset.next()) {
+					messageContent.add(resultset.getString(1));
+				}
+			} else {
+				final String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER=?";
 
-			System.out.println();
+				final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
-			while (resultset.next()) {
-				System.out.println(resultset.getString(1) + "\n");
+				searchpreparedstmt.setLong(1, Long.parseLong(primaryNo));
+				final ResultSet resultset = searchpreparedstmt.executeQuery();
+				
+				messageContent = new ArrayList<String>();
+				System.out.println();
+
+				while (resultset.next()) {
+					messageContent.add(resultset.getString(1));
+				}
 			}
 
 
 			boolean releaseOutcome=ConnectionPool.releaseConnection(connection);
 
-			LoadResources.logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
-
+			logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
 			
+			return messageContent;
 		} catch (final Exception e) {
-			LoadResources.logger.error(e.getMessage());
+			logger.error(e.getMessage());
 			throw new SQLException();
-		}
+		} 
 	}
 
-	void searchMsgReceivedBy(final long primaryNo, final String region) throws SQLException {
+
+
+
+	// ------------------ This method searches for messages received by a number ------------------ 
+	static List<String> searchMsgReceivedBy(final long primaryNo, final String region) throws SQLException {
 		try{
-			
+
 			Connection connection=ConnectionPool.getConnection();
 			//Fetch connection from Connection Pool
 
-			LoadResources.logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
+			logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
 
 			String searchMsgSQL = "";
 
@@ -203,77 +225,80 @@ public class DatabaseConnection implements Runnable  {
 				searchpreparedstmt.setInt(1, 2); //2 is Region id for Punjab
 				searchpreparedstmt.setLong(2, primaryNo);
 			}
+			
 			final ResultSet resultset = searchpreparedstmt.executeQuery();
 
 			System.out.println();
+			messageContent = new ArrayList<String>();
 
 			while (resultset.next()) {
-				System.out.println(resultset.getString("MESSAGE_CONTENT") + "\n");
+				messageContent.add(resultset.getString("MESSAGE_CONTENT"));
 			}
 
 
 			boolean releaseOutcome=ConnectionPool.releaseConnection(connection);
 
-			LoadResources.logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
-
+			logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
+			
+			return messageContent;
+			
 		} catch (final Exception e) {
-			LoadResources.logger.error(e.getMessage());
+			logger.error(e.getMessage());
 			throw new SQLException();
 		}
 	}
 
-	void searchMsgSentBy(final String primaryNo) throws Exception {
 
+
+
+	// ------------------ This method searches for messages sent from one number to other number ------------------ 
+	static List<String> searchMsgFromOneNumberToOther(final long primaryNo, final long secondaryNo) throws SQLException {
 		try {
 
 			Connection connection=ConnectionPool.getConnection();
-			//Fetch Connection from Connection Pool
+			//fetch connection from Connection Pool
 
-			LoadResources.logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
+			logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
 
-			if (primaryNo.contains("**")) {
-				final String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER LIKE \"99175_____\"";
-				final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
-				final ResultSet resultset = searchpreparedstmt.executeQuery();
+			final String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER=? AND TO_NUMBER=?";
 
-				System.out.println();
+			final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
 
-				while (resultset.next()) {
-					System.out.println(resultset.getString(1) + "\n");
-				}
-			} else {
-				final String searchMsgSQL = "SELECT MESSAGE_CONTENT FROM MESSAGE_DETAIL WHERE FROM_NUMBER=?";
+			searchpreparedstmt.setLong(1, primaryNo);
+			searchpreparedstmt.setLong(2, secondaryNo);
+			final ResultSet resultset = searchpreparedstmt.executeQuery();
 
-				final PreparedStatement searchpreparedstmt = connection.prepareStatement(searchMsgSQL);
+			System.out.println();
+			messageContent = new ArrayList<String>();
 
-				searchpreparedstmt.setLong(1, Long.parseLong(primaryNo));
-				final ResultSet resultset = searchpreparedstmt.executeQuery();
-
-				System.out.println();
-
-				while (resultset.next()) {
-					System.out.println(resultset.getString(1) + "\n");
-				}
+			while (resultset.next()) {
+				messageContent.add(resultset.getString(1));
 			}
 
 
 			boolean releaseOutcome=ConnectionPool.releaseConnection(connection);
 
-			LoadResources.logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
+			logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
 
+			return messageContent;
+			
 		} catch (final Exception e) {
-			LoadResources.logger.error(e.getMessage());
+			logger.error(e.getMessage());
 			throw new SQLException();
-		} 
+		}
 	}
 
-	void searchMsgByOperatorAndRegion(final long primaryNo) throws SQLException {
+
+
+
+	// ------------------ This method searches for messages sent by a particular operator and region ------------------ 
+	static List<String> searchMsgByOperatorAndRegion(final long primaryNo) throws SQLException {
 		try {
-			
+
 			Connection connection=ConnectionPool.getConnection();
 			//Fetch Connection from Connection Pool
 
-			LoadResources.logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
+			logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
 
 			final String searchMsgSQL = "SELECT * FROM MESSAGE_DETAIL INNER JOIN NUMBER_DETAIL WHERE NUMBER_DETAIL.REGION_ID=? AND MESSAGE_DETAIL.FROM_NUMBER=NUMBER_DETAIL.NUMBER AND MESSAGE_DETAIL.TO_NUMBER=? AND NUMBER_DETAIL.OPERATOR_ID=?;";
 
@@ -285,30 +310,35 @@ public class DatabaseConnection implements Runnable  {
 			final ResultSet resultset = searchpreparedstmt.executeQuery();
 
 			System.out.println();
+			messageContent = new ArrayList<String>();
 
 			while (resultset.next()) {
-				System.out.println(resultset.getString("MESSAGE_CONTENT") + "\n");
+				messageContent.add(resultset.getString("MESSAGE_CONTENT"));
 			}
 
 			boolean releaseOutcome=ConnectionPool.releaseConnection(connection);
 
-			LoadResources.logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
+			logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
 
+			return messageContent;
+			
 		} catch (final Exception e) {
-			LoadResources.logger.error(e.getMessage());
+			logger.error(e.getMessage());
 			throw new SQLException();
 		}
 	}
 
-	void searchFailedMsg() throws SQLException {
+
+
+
+	// ------------------ This method searches for failed messages sent from a region ------------------ 
+	static List<String> searchFailedMsg() throws SQLException {
 		try {
-			
-			
+
 			Connection connection=ConnectionPool.getConnection();
-			
 			//Fetch Connection from Connection Pool
 
-			LoadResources.logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
+			logger.info("Connection allocated, Pool Size: "+ConnectionPool.getSize());
 
 			final String searchMsgSQL = "SELECT * FROM MESSAGE_DETAIL INNER JOIN NUMBER_DETAIL WHERE NUMBER_DETAIL.REGION_ID=? AND MESSAGE_DETAIL.FROM_NUMBER=NUMBER_DETAIL.NUMBER AND MESSAGE_DETAIL.STATUS='F';";
 
@@ -318,18 +348,20 @@ public class DatabaseConnection implements Runnable  {
 			final ResultSet resultset = searchpreparedstmt.executeQuery();
 
 			System.out.println();
+			messageContent = new ArrayList<String>();
 
 			while (resultset.next()) {
-				System.out.println(resultset.getString("MESSAGE_CONTENT") + "\n");
+				messageContent.add(resultset.getString("MESSAGE_CONTENT"));
 			}
-			
+
 			boolean releaseOutcome=ConnectionPool.releaseConnection(connection);
 
-			LoadResources.logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
+			logger.info("Status of Connection Release: "+releaseOutcome+", Pool size:"+ConnectionPool.getSize());
 
+			return messageContent;
 			
 		} catch (final Exception e) {
-			LoadResources.logger.error(e.getMessage());
+			logger.error(e.getMessage());
 			throw new SQLException();
 		}
 	}

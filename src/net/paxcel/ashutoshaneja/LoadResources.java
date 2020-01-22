@@ -12,8 +12,8 @@ import org.apache.log4j.PropertyConfigurator;
  *
  */
 class LoadResources {
-	
-	
+
+
 	protected static Logger logger;
 	static Properties dbProperties;
 	static Properties log4jProperties;
@@ -34,8 +34,8 @@ class LoadResources {
 			logger.setLevel(Level.INFO);
 
 			PropertyConfigurator.configure(log4jProperties);    
-			
-			
+
+
 			logger.info("\n\nResources successfully Loaded....");
 		} 
 		catch (final Exception exception){

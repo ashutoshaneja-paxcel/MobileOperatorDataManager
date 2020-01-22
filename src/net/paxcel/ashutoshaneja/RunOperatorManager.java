@@ -1,94 +1,115 @@
 package net.paxcel.ashutoshaneja;
 import java.sql.SQLException;
+import static net.paxcel.ashutoshaneja.LoadResources.*;
+import static net.paxcel.ashutoshaneja.DatabaseConnection.*;
 import java.util.*;
 
-/**This class executes the Operator Manager, provides Menu for interaction
+/**This class executes the Operator Manager, provides Menu for interaction.
  * @author Ashutosh
  *Methods in this class :- Main Method
  */
 public class RunOperatorManager {
-	
-	private static final String DB_DRIVER_CLASS=LoadResources.dbProperties.getProperty("driver.class.name");
-	private static final String DB_URL=LoadResources.dbProperties.getProperty("db.url");
-	private static final String DB_USER=LoadResources.dbProperties.getProperty("db.user");
-	private static final String DB_PASSWORD=LoadResources.dbProperties.getProperty("db.password");
-	
+
 	private static Scanner scanner =new Scanner(System.in);
+	static List<String> messageList = new ArrayList<String>();
 	public static void main(final String[] args) {
 
 		try {
-			DatabaseConnection databaseconnection = new DatabaseConnection();
+
 			LoadResources.areValid();	
 			//Validate Resources and their configuration
-			
-			ConnectionPool.createInitialPool(DB_DRIVER_CLASS, DB_URL, DB_USER, DB_PASSWORD);
-			//Create Initial Connection Pool
-			
-			
-			//databaseconnection.insertData();
+
+			if(createConnectionPool()) {
+				logger.info("Connection Pool Created..");
+			}
+			else {
+				throw new RuntimeException();
+			}
+
+
+			//insertData();
 			// Populates the DB Tables with Random Data for performing operations
+
 
 			/*                  ---Menu for User Interaction---                  */
 			System.out.println("-- Welcome to Mobile Operator Data Manager --");
 
 			System.out.println("\nOperations: -");
-			System.out.println("1. Print messages sent from a number");
-			System.out.println("2. Print messages received by a number");
+			System.out.println("1. Print all Messages sent by a number");
+			System.out.println("2. Print all Messages received by a number");
 			System.out.println("3. Print messages sent from one number to other number");
 			System.out.println("4. Print messages received from any Punjab number");
-			System.out.println("5. Print messages received from any specific Region-Operator");
-			System.out.println("6. Print messages received from any number (Regex Pattern)");
-			System.out.println("7. Print messages received from any specific region but FAILED");
+			System.out.println("5. Print messages received from any Punjab Jio number");
+			System.out.println("6. Print messages received from 99175*****");
+			System.out.println("7. Print messages received from Punjab number but FAILED");
 			System.out.println("~ Enter any other key to exit.");
-			System.out.println("Enter your option to perform the specific operation: ");
+			System.out.println("\nEnter your option to perform the specific operation: ");
 			/*                  ---Menu for User Interaction---                  */
-			
+
 			final int option=scanner.nextInt();
-			
+
 			switch(option) {
 			case 1:{
 				System.out.print("Searching for all Messages sent by \"9814129697\" :-");
 				final long primaryNo = 9814129697l;
-				databaseconnection.searchMsgSentBy(String.valueOf(primaryNo));
 
+				messageList = searchMsgSentBy(String.valueOf(primaryNo));
+				
+				System.out.println(messageList);
 				break;
 			}
 			case 2:{
 				System.out.print("Searching for all Messages received by \"9814430424\" :-");
 				final long primaryNo = 9814430424l;
-				databaseconnection.searchMsgReceivedBy(primaryNo, "anyRegion");
 
+				messageList = searchMsgReceivedBy(primaryNo, "anyRegion");
+
+				System.out.println(messageList);
 				break;
 			}
 			case 3:{
 				System.out.print("Searching for Messages sent from \"9917213839\" to \"9917226381\" :-");
 				final long primaryNo = 9917213839l;
 				final long secondaryNo = 9917226381l;
-				databaseconnection.searchMsgFromOneNumberToOther(primaryNo, secondaryNo);
 
+				messageList = searchMsgFromOneNumberToOther(primaryNo, secondaryNo);
+				
+				System.out.println(messageList);
 				break;
 			}
 			case 4:{
 				System.out.print("Searching for Messages received by \"9872317017\" from Punjab Number:-");
 				final long primaryNo = 9872317017l;
-				databaseconnection.searchMsgReceivedBy(primaryNo, "punjabRegion");
+
+				messageList = searchMsgReceivedBy(primaryNo, "punjabRegion");
+				
+				System.out.println(messageList);
 				break;
 			}
 			case 5:{
 				System.out.print("Searching for Messages received by \"9872317017\" from Jio Punjab Number:-");
 				final long primaryNo = 9872317017l;
-				databaseconnection.searchMsgByOperatorAndRegion(primaryNo);
+
+				messageList = searchMsgByOperatorAndRegion(primaryNo);
+				
+				System.out.println(messageList);
 				break;
 			}
 			case 6:{
 				System.out.println("Searching for Messages received by \"from 99175*****\" :-");
 				final String primaryNo = "99175*****";
-				databaseconnection.searchMsgSentBy(primaryNo);
+
+				messageList = searchMsgSentBy(primaryNo);
+				
+				System.out.println(messageList);
 				break;
 			}
 			case 7:{
 				System.out.println("Searching for Messages received by Punjab Number BUT Failed :-");
-				databaseconnection.searchFailedMsg();
+
+				messageList = searchFailedMsg();
+				
+				System.out.println(messageList);
 				break;
 			}
 			default:{
@@ -99,21 +120,30 @@ public class RunOperatorManager {
 			}
 
 		}
+
 		catch(final InputMismatchException imexception) {
 			System.out.println("Input Mismatch. Enter only integers!");
 			System.exit(0);
 		}
+
 		catch(final SQLException sqlexception) {
 			System.out.println("Connection could not be established. Try again :(");
-			LoadResources.logger.error("Exception found! \nStackTrace: "+sqlexception.getStackTrace(), sqlexception);
+			LoadResources.logger.error("DB Connection Issue! \nStackTrace: "+sqlexception.getStackTrace(), sqlexception);
 		}
+
+		catch(final RuntimeException rtexception) {
+			System.out.println("Connection could not be established. Aborting System!! Try again :(");
+			logger.error("Connection Pool not established! \nStackTrace: "+rtexception.getStackTrace(), rtexception);
+			System.exit(0);
+		}
+
 		catch(final Exception exception) {
 			System.out.println("Error encountered. Try again :(");
-			LoadResources.logger.info(exception.getMessage());
-			LoadResources.logger.error("Exception found! \nStackTrace: "+exception.getStackTrace(), exception);
+			logger.error("Exception found! \nStackTrace: "+exception.getStackTrace(), exception);
 		}
+
 		finally{
-			LoadResources.logger.info("Resources released, System Shutdown!!");
+			logger.info("Resources released, System Shutdown!!");
 		}
 
 	}
