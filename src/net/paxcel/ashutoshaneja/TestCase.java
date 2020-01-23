@@ -28,7 +28,7 @@ public class TestCase {
 		logger.info("Starting Test Case for Method - searchMsgSentBy() ");
 
 		expectedOutcome.add("a1GD8eLJTT");
-		expectedOutcome.add("oaBR8iNEi");
+		expectedOutcome.add("oaBR8iNEiu");
 
 		final long primaryNo = 9814129697l;
 		assertEquals(expectedOutcome, searchMsgSentBy(String.valueOf(primaryNo)));

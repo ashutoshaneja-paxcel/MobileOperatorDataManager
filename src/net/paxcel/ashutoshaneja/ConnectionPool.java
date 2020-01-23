@@ -38,7 +38,6 @@ public class ConnectionPool {
 
 	private static Connection createConnection(String url, String user, String password)
 			throws SQLException, ClassNotFoundException {
-		Class.forName("com.mysql.jdbc.Driver");
 		Connection connection = DriverManager.getConnection(url, user, password);
 		return connection;
 	}

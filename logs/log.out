@@ -1383,3 +1383,78 @@ Resources successfully Loaded....
  22 Jan 2020 19:18:28 Status of Connection Release: true, Pool size:10
  22 Jan 2020 19:18:28 Test Case Cleared! ✔
  22 Jan 2020 19:18:28 
+
+Resources successfully Loaded....
+ 23 Jan 2020 11:05:56 Starting Test Case for Method - searchMsgSentBy() 
+ 23 Jan 2020 11:05:56 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:05:56 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:05:56 Starting Test Case for Method - searchFailedMsg() 
+ 23 Jan 2020 11:05:56 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:05:56 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:05:56 Test Case Cleared! ✔
+ 23 Jan 2020 11:05:56 Starting Test Case for Method - searchMsgReceivedBy() 
+ 23 Jan 2020 11:05:56 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:05:56 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:05:56 Test Case Cleared! ✔
+ 23 Jan 2020 11:05:56 Starting Test Case for Method - searchMsgReceivedBy() 
+ 23 Jan 2020 11:05:56 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:05:56 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:05:56 Test Case Cleared! ✔
+ 23 Jan 2020 11:05:56 Starting Test Case for Method - searchMsgFromOneNumberToOther() 
+ 23 Jan 2020 11:05:56 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:05:56 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:05:56 Test Case Cleared! ✔
+ 23 Jan 2020 11:05:56 Starting Test Case for Method - searchMsgSentBy() 
+ 23 Jan 2020 11:05:56 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:05:56 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:05:56 Test Case Cleared! ✔
+ 23 Jan 2020 11:05:56 Starting Test Case for Method - searchMsgByOperatorAndRegion() 
+ 23 Jan 2020 11:05:56 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:05:56 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:05:56 Test Case Cleared! ✔
+ 23 Jan 2020 11:05:56 
+
+Resources successfully Loaded....
+ 23 Jan 2020 11:06:17 Starting Test Case for Method - searchMsgSentBy() 
+ 23 Jan 2020 11:06:17 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:06:17 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:06:17 Test Case Cleared! ✔
+ 23 Jan 2020 11:06:17 Starting Test Case for Method - searchFailedMsg() 
+ 23 Jan 2020 11:06:17 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:06:17 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:06:17 Test Case Cleared! ✔
+ 23 Jan 2020 11:06:17 Starting Test Case for Method - searchMsgFromOneNumberToOther() 
+ 23 Jan 2020 11:06:17 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:06:17 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:06:17 Test Case Cleared! ✔
+ 23 Jan 2020 11:06:17 Starting Test Case for Method - searchMsgReceivedBy() 
+ 23 Jan 2020 11:06:17 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:06:17 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:06:17 Test Case Cleared! ✔
+ 23 Jan 2020 11:06:17 Starting Test Case for Method - searchMsgSentBy() 
+ 23 Jan 2020 11:06:17 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:06:17 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:06:17 Test Case Cleared! ✔
+ 23 Jan 2020 11:06:17 Starting Test Case for Method - searchMsgByOperatorAndRegion() 
+ 23 Jan 2020 11:06:17 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:06:17 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:06:17 Test Case Cleared! ✔
+ 23 Jan 2020 11:06:17 Starting Test Case for Method - searchMsgReceivedBy() 
+ 23 Jan 2020 11:06:17 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:06:17 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:06:17 Test Case Cleared! ✔
+ 23 Jan 2020 11:06:17 
+
+Resources successfully Loaded....
+ 23 Jan 2020 11:06:37 Connection Pool Created..
+ 23 Jan 2020 11:06:38 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:06:41 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:06:41 Resources released, System Shutdown!!
+ 23 Jan 2020 11:06:41 
+
+Resources successfully Loaded....
+ 23 Jan 2020 11:06:45 Connection Pool Created..
+ 23 Jan 2020 11:06:45 Connection allocated, Pool Size: 9
+ 23 Jan 2020 11:06:46 Status of Connection Release: true, Pool size:10
+ 23 Jan 2020 11:06:46 Resources released, System Shutdown!!
+ 23 Jan 2020 11:06:46 
